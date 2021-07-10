@@ -8,8 +8,8 @@
 import hashlib
 import ierror
 import xml.etree.cElementTree as et
-from WXBizMsgCrypt3 import WXBizMsgCrypt
 from flask import Flask,request
+from WXBizMsgCrypt3 import WXBizMsgCrypt
 from CheckPy.tcp_port import check_tcp_port_PG
 # http://tcandyj.top:8888/sms
 
@@ -19,9 +19,9 @@ def sms():
     """
     @return: 消息体签名校验
     """
-    sToken = 'dDrgScWRFUe95mYJKmJm20IsS'
-    sEncodingAESKey = 'uIBoGlGPWGNejAtxH2k6KbykX9eDEYwEWXZk3RJFlZC'
-    sCorpID = 'wwc4cb679fd7911d16'
+    sToken = '*'
+    sEncodingAESKey = '*'
+    sCorpID = '*'
     wxcpt = WXBizMsgCrypt(sToken, sEncodingAESKey, sCorpID)
     sVerifyMsgSig = request.args.get('msg_signature')
     sVerifyTimeStamp = request.args.get('timestamp')
@@ -45,12 +45,11 @@ def sms():
             print (cmd_result)
         else:
             cmd_result = "执行失败"
-        print (cmd_result)
-        # 企业微信将触发事件结果返回给客户端
+        # 企业微信将触发事件结果返回给客户端(https://work.weixin.qq.com/api/doc/90000/90135/90241)
         sRespData = "<xml>" \
-                    "<ToUserName><![CDATA[TianCiwang]]></ToUserName>" \
-                    "<FromUserName><![CDATA[wwc4cb679fd7911d16]]></FromUserName>" \
-                    "<CreateTime>1348831860</CreateTime>" \
+                    "<ToUserName><![CDATA[消息接收人]]></ToUserName>" \
+                    "<FromUserName><![CDATA[CropID]]></FromUserName>" \
+                    "<CreateTime>创建时间</CreateTime>" \
                     "<MsgType><![CDATA[text]]></MsgType>" \
                     "<Content><![CDATA[{}]]></Content></xml>".format(cmd_result)
         ret, sEncryptMsg = wxcpt.EncryptMsg(sRespData, sVerifyNonce, sVerifyTimeStamp)
