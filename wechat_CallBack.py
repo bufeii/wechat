@@ -10,7 +10,8 @@ import ierror
 import xml.etree.cElementTree as et
 from flask import Flask,request
 from WXBizMsgCrypt3 import WXBizMsgCrypt
-from CheckPy.tcp_port import check_tcp_port_PG
+from check_host_information.tcp_port import *
+from ssh_login_template.SSHLogin import *
 # http://tcandyj.top:8888/sms
 
 app = Flask(__name__)
